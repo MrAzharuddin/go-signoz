@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/SigNoz/sample-golang-app/models"
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
@@ -95,4 +97,17 @@ func DeleteBook(c *gin.Context) {
 	models.DB.Delete(&book)
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+}
+
+func CreateDummyBooks()  {
+	numObjects := 15
+	books := make([]models.Book, numObjects)
+	for i := 0; i < numObjects; i++ {
+		book := models.Book{
+			Title:  gofakeit.Sentence(3),
+			Author: gofakeit.Name(),
+		}
+		models.DB.WithContext(context.Background()).Create(&book)
+		books[i] = book
+	}
 }

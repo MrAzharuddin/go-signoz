@@ -3,6 +3,7 @@ module github.com/SigNoz/sample-golang-app
 go 1.17
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.21.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.1.12
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.31.0

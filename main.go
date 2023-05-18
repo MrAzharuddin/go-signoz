@@ -75,6 +75,7 @@ func main() {
 	// Connect to database
 	models.ConnectDatabase()
 
+	controllers.CreateDummyBooks()
 	// Routes
 	r.GET("/books", controllers.FindBooks)
 	r.GET("/books/:id", controllers.FindBook)
