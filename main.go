@@ -7,6 +7,7 @@ import (
 
 	"github.com/SigNoz/sample-golang-app/controllers"
 	"github.com/SigNoz/sample-golang-app/models"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc/credentials"
 
 	"github.com/gin-gonic/gin"
@@ -20,10 +21,18 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
+func getEnvFromFile(envName string) string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		return err.Error()
+	}
+	return os.Getenv(envName)
+}
+
 var (
-	serviceName  = os.Getenv("SERVICE_NAME")
-	collectorURL = os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
-	insecure     = os.Getenv("INSECURE_MODE")
+	serviceName  = getEnvFromFile("SERVICE_NAME")
+	collectorURL = getEnvFromFile("OTEL_EXPORTER_OTLP_ENDPOINT")
+	insecure     = getEnvFromFile("INSECURE_MODE")
 )
 
 func initTracer() func(context.Context) error {
@@ -70,7 +79,9 @@ func main() {
 	cleanup := initTracer()
 	defer cleanup(context.Background())
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	log.Println(serviceName, collectorURL, insecure)
 	r.Use(otelgin.Middleware(serviceName))
 	// Connect to database
 	models.ConnectDatabase()
