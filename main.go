@@ -74,25 +74,28 @@ func initTracer() func(context.Context) error {
 	return exporter.Shutdown
 }
 
-func main() {
-
-	cleanup := initTracer()
-	defer cleanup(context.Background())
-
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	log.Println(serviceName, collectorURL, insecure)
-	r.Use(otelgin.Middleware(serviceName))
-	// Connect to database
-	models.ConnectDatabase()
-
-	controllers.CreateDummyBooks()
+func setupRoutes(r *gin.Engine){
 	// Routes
 	r.GET("/books", controllers.FindBooks)
 	r.GET("/books/:id", controllers.FindBook)
 	r.POST("/books", controllers.CreateBook)
 	r.PATCH("/books/:id", controllers.UpdateBook)
 	r.DELETE("/books/:id", controllers.DeleteBook)
+}
+
+func main() {
+
+	cleanup := initTracer()
+	defer cleanup(context.Background())
+
+	r := gin.Default()
+	r.Use(otelgin.Middleware(serviceName))
+	// Connect to database
+	models.ConnectDatabase()
+
+	controllers.CreateDummyBooks()
+	// Routes
+	setupRoutes(r)
 
 	// Run the server
 	r.Run(":6000")
