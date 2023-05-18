@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/brianvoe/gofakeit/v6 v6.21.0
 	github.com/gin-gonic/gin v1.7.7
+	github.com/joho/godotenv v1.5.1
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.1.12
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.31.0
 	go.opentelemetry.io/otel v1.7.0
@@ -29,7 +30,6 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
